@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    mysql:
+      url: jdbc:mysql://localhost:3306/sample
+      username: root
+      password: root
+      driverClassName: com.mysql.cj.jdbc.Driver
+  su-datasource:
+    postgres:
+      url: jdbc:postgresql://localhost:5432/sample
+      username: postgres
+      password: root
+      driverClassName: org.postgresql.Driver
