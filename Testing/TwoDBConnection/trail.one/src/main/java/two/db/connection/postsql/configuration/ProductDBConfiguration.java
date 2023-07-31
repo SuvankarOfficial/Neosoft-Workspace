@@ -25,8 +25,7 @@ import java.util.Map;
 @EnableTransactionManagement
 @EnableJpaRepositories(
         entityManagerFactoryRef = "productEntityManagerFactoryBean",
-        transactionManagerRef = "productTransactionManager",
-        basePackages = {"two.db.connection.repository.product"}
+        transactionManagerRef = "productTransactionManager"
 )
 public class ProductDBConfiguration {
 
@@ -63,7 +62,7 @@ public class ProductDBConfiguration {
         props.put("hibernate.show.sql", "true");
         props.put("hibernate.hbm2ddl.auto", "update");
         bean.setJpaPropertyMap(props);
-        bean.setPackagesToScan("two/db/connection/sql/entity/product/Product.java");
+        bean.setPackagesToScan("two.db.connection.postsql.repository.product");
         return bean;
     }
 

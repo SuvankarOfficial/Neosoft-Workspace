@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/test/")
-public class mainController {
+@RequestMapping("/test")
+public class ServiceController {
 
     @Autowired
     private UserRepository userRepository;

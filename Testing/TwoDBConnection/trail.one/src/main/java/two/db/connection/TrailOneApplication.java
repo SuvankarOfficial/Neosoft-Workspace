@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"two.db.connection"})
-@EnableJpaRepositories(basePackages = {"two.db.connection.repository.product","two.db.connection.repository.user"})
+@EnableJpaRepositories(basePackages = {"two.db.connection.sql.repository.user","two.db.connection.postsql.repository.product"})
 public class TrailOneApplication {
 
 	public static void main(String[] args) {

@@ -23,9 +23,8 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "UserentityManagerFactoryBean",
-        transactionManagerRef = "UsertransactionManager",
-        basePackages = {"two.db.connection.repository.user"}
+        entityManagerFactoryRef = "entityManagerFactory",
+        transactionManagerRef = "UserTransactionManager"
 )
 public class UserDBConfiguration {
 
@@ -49,8 +48,8 @@ public class UserDBConfiguration {
 
 
     @Primary
-    @Bean("UserentityManagerFactoryBean")
-    public LocalContainerEntityManagerFactoryBean UserentityManagerFactoryBean() {
+    @Bean("entityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
         bean.setDataSource(UserdataSource());
 
@@ -61,16 +60,16 @@ public class UserDBConfiguration {
         props.put("hibernate.show.sql", "true");
         props.put("hibernate.hbm2ddl.auto", "update");
         bean.setJpaPropertyMap(props);
-        bean.setPackagesToScan("two/db/connection/sql/entity/user/User.java");
+        bean.setPackagesToScan("two.db.connection.sql.repository.user");
         return bean;
     }
 
 
     @Primary
-    @Bean("UsertransactionManager")
-    public PlatformTransactionManager UsertransactionManager() {
+    @Bean("UserTransactionManager")
+    public PlatformTransactionManager UserTransactionManager() {
         JpaTransactionManager manager = new JpaTransactionManager();
-        manager.setEntityManagerFactory(UserentityManagerFactoryBean().getObject());
+        manager.setEntityManagerFactory(entityManagerFactory().getObject());
         return manager;
     }
 }
