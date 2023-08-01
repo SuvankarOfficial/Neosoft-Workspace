@@ -1,4 +1,5 @@
 import './ContactUs.css';
+import ContactUsForm from './ContactUsForm';
 import logo from './image/DBAdmin.jpg';
 
 export default function ContactUs(){
@@ -11,14 +12,7 @@ export default function ContactUs(){
         <div className="OutSideBox">
             <div className="InsideLeft"> <img className='LeftSideImage'  src={logo} alt="DBAdmin Logo" /></div>
             <div className="InsideRight">
-                <form action="">
-                    <table>
-                        <th>
-                            <td><h2>First Name</h2></td>
-                            <td><input type="text"/></td>
-                        </th>
-                    </table>
-                </form> 
+                <ContactUsForm/>
             </div>
         </div>
       </div>  

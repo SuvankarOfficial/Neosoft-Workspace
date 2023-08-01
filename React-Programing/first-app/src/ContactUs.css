@@ -4,6 +4,8 @@
 }
 
 *{
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
 }
 
@@ -32,10 +34,16 @@
 
 .LeftSideImage{
     width: 100%;
+    /* height: 450px; */
     border-radius: 5px;
 }
 
 .InsideRight{
     /* background-color: red; */
     width: 65%;
+    /* margin-top: 20%; */
+}
+
+.contactForm{
+    /* justify-content: center;    */
 }
