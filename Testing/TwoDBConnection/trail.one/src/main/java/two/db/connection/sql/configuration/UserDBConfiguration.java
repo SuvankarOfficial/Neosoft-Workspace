@@ -60,7 +60,8 @@ public class UserDBConfiguration {
         props.put("hibernate.show.sql", "true");
         props.put("hibernate.hbm2ddl.auto", "update");
         bean.setJpaPropertyMap(props);
-        bean.setPackagesToScan("two.db.connection.sql.repository.user");
+        bean.setPackagesToScan("two.db.connection.sql.entity.user");
+        bean.setPersistenceUnitName("");
         return bean;
     }
 

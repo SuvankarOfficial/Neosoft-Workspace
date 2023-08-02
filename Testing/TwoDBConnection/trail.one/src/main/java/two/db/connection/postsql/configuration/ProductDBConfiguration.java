@@ -62,7 +62,7 @@ public class ProductDBConfiguration {
         props.put("hibernate.show.sql", "true");
         props.put("hibernate.hbm2ddl.auto", "update");
         bean.setJpaPropertyMap(props);
-        bean.setPackagesToScan("two.db.connection.postsql.repository.product");
+        bean.setPackagesToScan("two.db.connection.postsql.entity.product");
         return bean;
     }
 

@@ -1,0 +1,18 @@
+server:
+    port: 9002
+spring:
+    datasource:
+        mysql:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            password: root
+            url: jdbc:mysql://localhost:3306/sample
+            username: root
+        postgres:
+            driver-class-name: org.postgresql.Driver
+            password: root
+            url: jdbc:postgresql://localhost:5432/sample
+            username: postgres
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
