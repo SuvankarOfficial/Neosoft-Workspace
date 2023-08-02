@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ContactUsForm.css";
 
+// const formData = {
+//   firstName : "" ,lastName : "" ,email : "" ,phone : "" 
+// }
+
 export default function ContactUsForm() {
+
+  const [ formData, setFormData ] = useState({firstName:"",lastName:"",email:"",phone:""})
+
+  const handleChangeData = (event) =>{
+    const { name , value } = event.target;
+    setFormData((data) => ({...data, [name]:value}));
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(`Name: ${formData.firstName} ${formData.lastName}, Email: ${formData.email}, Phone: ${formData.phone}`);
+  }
   return (
     <div>
       <div className="container leftAlign">
@@ -9,12 +25,15 @@ export default function ContactUsForm() {
           <div className="dravid col-md-6">
             <div> First Name </div>
             <div class="input-group mb-3">
-              <input
+              <input 
+              name="firstName"
+                onChange={handleChangeData}
                 type="text"
                 class="form-control"
                 placeholder="First Name"
                 aria-label="First Name"
                 aria-describedby="basic-addon1"
+                value={formData?.firstName}
               />
             </div>
           </div>
@@ -22,11 +41,14 @@ export default function ContactUsForm() {
             <div> Last Name </div>
             <div class="input-group mb-3">
               <input
+              name="lastName"
+                onChange={handleChangeData}
                 type="text"
                 class="form-control"
                 placeholder="Last Name"
                 aria-label="Last Name"
                 aria-describedby="basic-addon1"
+                value={formData?.lastName}
               />
             </div>
           </div>
@@ -36,11 +58,14 @@ export default function ContactUsForm() {
             <div> Email </div>
             <div class="input-group mb-3">
               <input
-                type="text"
+              name="email"
+                onChange={handleChangeData}
+                type="email"
                 class="form-control"
                 placeholder="you@yoursite.com"
                 aria-label="you@yoursite.com"
                 aria-describedby="basic-addon1"
+                value={formData?.email}
               />
             </div>
           </div>
@@ -48,11 +73,14 @@ export default function ContactUsForm() {
             <div> Phone </div>
             <div class="input-group mb-3">
               <input
+              name="phone"
+                onChange={handleChangeData}
                 type="number"
                 class="form-control"
                 placeholder="Phone"
                 aria-label="Phone"
                 aria-describedby="basic-addon1"
+                value={formData?.phone}
               />
             </div>
           </div>
@@ -62,7 +90,7 @@ export default function ContactUsForm() {
           news about out product via e-mail?
         </div>
         <div>
-        <input class="btn btn-primary mr-2 mt-4" type="submit" value="Submit" />
+        <input class="btn btn-primary mr-2 mt-4" type="submit" value="Submit" onClick={handleSubmit}/>
         <input class="btn btn-primary mr-2 mt-4" type="reset" value="Reset" />
       </div>
       </div>
