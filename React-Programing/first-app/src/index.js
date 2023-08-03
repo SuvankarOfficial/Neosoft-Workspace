@@ -5,12 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ContactUs from './ContactUs';
 import ContactUsForm from './ContactUsForm';
+import FormInnerVariable from './FormInnerVariable';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ContactUsForm />
+    <FormInnerVariable />
+    {/* <ContactUsForm /> */}
   </React.StrictMode>
 );
 
