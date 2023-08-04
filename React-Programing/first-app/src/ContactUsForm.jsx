@@ -11,6 +11,7 @@ export default function ContactUsForm() {
 
   const handleChangeData = (event) =>{
     const { name , value } = event.target;
+    console.log(name);
     setFormData((data) => ({...data, [name]:value}));
   }
 
@@ -24,12 +25,12 @@ export default function ContactUsForm() {
         <div className="row mt-4">
           <div className="dravid col-md-6">
             <div> First Name </div>
-            <div class="input-group mb-3">
+            <div className="input-group mb-3">
               <input 
               name="firstName"
                 onChange={handleChangeData}
                 type="text"
-                class="form-control"
+                className="form-control"
                 placeholder="First Name"
                 aria-label="First Name"
                 aria-describedby="basic-addon1"
@@ -39,12 +40,12 @@ export default function ContactUsForm() {
           </div>
           <div className="dravid col-md-6">
             <div> Last Name </div>
-            <div class="input-group mb-3">
+            <div className="input-group mb-3">
               <input
               name="lastName"
                 onChange={handleChangeData}
                 type="text"
-                class="form-control"
+                className="form-control"
                 placeholder="Last Name"
                 aria-label="Last Name"
                 aria-describedby="basic-addon1"
@@ -56,12 +57,12 @@ export default function ContactUsForm() {
         <div className="row mt-4">
           <div className="dravid col-md-6">
             <div> Email </div>
-            <div class="input-group mb-3">
+            <div className="input-group mb-3">
               <input
               name="email"
                 onChange={handleChangeData}
                 type="email"
-                class="form-control"
+                className="form-control"
                 placeholder="you@yoursite.com"
                 aria-label="you@yoursite.com"
                 aria-describedby="basic-addon1"
@@ -71,12 +72,12 @@ export default function ContactUsForm() {
           </div>
           <div className="dravid col-md-6">
             <div> Phone </div>
-            <div class="input-group mb-3">
+            <div className="input-group mb-3">
               <input
               name="phone"
                 onChange={handleChangeData}
                 type="number"
-                class="form-control"
+                className="form-control"
                 placeholder="Phone"
                 aria-label="Phone"
                 aria-describedby="basic-addon1"
@@ -90,8 +91,8 @@ export default function ContactUsForm() {
           news about out product via e-mail?
         </div>
         <div>
-        <input class="btn btn-primary mr-2 mt-4" type="submit" value="Submit" onClick={handleSubmit}/>
-        <input class="btn btn-primary mr-2 mt-4" type="reset" value="Reset" />
+        <input className="btn btn-primary mr-2 mt-4" type="submit" value="Submit" onClick={handleSubmit}/>
+        <input className="btn btn-primary mr-2 mt-4" type="reset" value="Reset" />
       </div>
       </div>
     </div>
