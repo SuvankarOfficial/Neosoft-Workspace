@@ -7,6 +7,7 @@ import com.contact.service.ContactService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,8 +51,8 @@ public class ContactController {
     }
 
     @PostMapping("/import")
-    public ResponseBean importContact(@RequestParam MultipartFile multipartFile){
-        return contactService.importContact(multipartFile);
+    public void importContact(@RequestParam MultipartFile multipartFile,HttpServletResponse response){
+        contactService.importContact(multipartFile,response);
     }
 
     @DeleteMapping("/{contact_id}")
