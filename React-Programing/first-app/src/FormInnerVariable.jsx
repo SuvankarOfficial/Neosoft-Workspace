@@ -3,41 +3,20 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 export default function FormInnerVariable() {
-  // var columns = [];
-  // function addColumns(column) {
-  //   columns.push(column);
-  // }
-  // axios
-  // .get(
-  //   "http://localhost:9003/query/get-table-fields?userId=1&tableName=contact&connectionName=mysqllocal"
-  // )
-  // .then((response)=>{
-  //   response.data.data.map((column) => {
-  //     addColumns(column);
-  //   })
-  // })
-
+ 
+  const [selectedColumns,setSelectedColumns] = useState([]);
   var [columns, setColumn] = useState([]);
-  const [ whereData, setWhereData ] = useState({table_name:"",column_name:"",column_type:"",valueOne:"",valueTwo:"",condition:"EQ"})
+  const [whereData, setWhereData] = useState({
+    table_name: "",
+    column_name: "",
+    column_type: "",
+    valueOne: "",
+    valueTwo: "",
+    condition: "EQ",
+  });
 
   const fetchColumn = () => {
-    // fetch("http://localhost:9003/query/get-table-fields?userId=1&tableName=contact&connectionName=mysqllocal")
-    // .then(response => {
-    //   console.log(response.json());
-    //   return response
-    // })
-    // .then(column =>{
-    //   setColumn(column)
-    // })
-
-    // fetch("https://jsonplaceholder.typicode.com/users")
-    //   .then(response => {
-    //     return response.json()
-    //   })
-    //   .then(data => {
-    //     setColumn(data)
-    //   })
-    return axios
+     return axios
       .get(
         "http://localhost:9003/query/get-table-fields?userId=1&tableName=contact&connectionName=mysqllocal"
       )
@@ -48,12 +27,16 @@ export default function FormInnerVariable() {
     fetchColumn();
   }, []);
 
-  var select = [];
-  var where = [];
+  const [outputData,setOutputData] = useState({
+    select_list: [],
+    where_list: []
+  });
+  var select=[];
+
   var columnList = [];
   var table_name_for_select = "";
-  var selectList = [];
-  var whereList = [];
+  var where = [];
+  var whereList = []
   const conditionConstant = [
     "EQ",
     "NEQ",
@@ -77,100 +60,99 @@ export default function FormInnerVariable() {
     "NOT CONTAINS",
   ];
   const handlePrintData = (e) => {
-    console.log(columns);
+    console.log(outputData);
   };
 
-  const handleWhereCondition = (e)=>{
+  const handleWhereCondition = (e) => {
     const { name, value } = e.target;
-    console.log(name);
-    console.log(value);
-    setWhereData((data) => ({...data, condition:value}));
-  }
+    setWhereData((data) => ({ ...data, condition: value }));
+  };
 
-  const handleWhereColumn = (e)=>{
-    console.log("column");
+  const handleWhereColumn = (e) => {
     const value = e.target.value;
-    const row = columns.filter(column => column.column_name === value)
-    console.log(row);
-    setWhereData((data) => ({[data.table_name] :  row[0].table_name}));
-    console.log("wheredata");
-    console.log(whereData);
+    let row = value.split(".");
+    setWhereData((data) => ({
+      ...data,
+      table_name: row[0],
+      column_name: row[1],
+      column_type: row[2],
+    }));
+  };
 
-  }
-
-  const handleWhereValue = (e)=>{
+  const handleWhereValue = (e) => {
     const value = e.target.value;
-    setWhereData((data) => ({...data, valueOne : value}));
-  }
+    setWhereData((data) => ({ ...data, valueOne: value }));
+  };
 
   const handleChangeList = (e) => {
     const { name, checked } = e.target;
     if (checked) {
-      select.push(name);
+      setSelectedColumns((data)=>{
+          if(data.indexOf(name) === -1)
+            data.push(name)
+        return data;
+      });
     } else {
-      select = select.filter((o) => o !== name);
-      console.log(name);
-      console.log(select);
+      setSelectedColumns((data)=>{
+        return data.filter((column)=> column !== name);
+      });
     }
+    console.log(selectedColumns);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    for (let index = 0; index < select.length; index++) {
-      var split = select[index].split(".");
+    selectedColumns.map((column) => {
+      let split = column.split(".");
       table_name_for_select = split[0];
-      let columnDetail = {
-        table_name: split[0],
-        column_name: split[1],
-      };
-      columnList.push(columnDetail);
-    }
-    console.log(columnList);
-    selectList.table_name_for_select = table_name_for_select;
-    selectList.columnList = columnList;
-    // select.push(selectList)
-    console.log("select");
-    console.log(selectList);
+      let selectData = {
+        table_name : split[0],
+        column_name : split[1]
+      }
+      columnList.push(selectData);
+    });
+    let selectColumn = {
+      table_name: table_name_for_select,
+      column_list: columnList,
+    };
+    // setSelect((data)=>{
+      select.push(selectColumn);
+      // return data;
+    // });
+  
 
     //Done with select
-    console.log("wheredata");
-    console.log(whereData);
-
-    let columnDetail = {
+    let columnDetail_for_where = {
       table_name: whereData.table_name,
       column_name: whereData.column_name,
       column_type: whereData.column_type,
       valueOne: whereData.valueOne,
       valueTwo: whereData.valueTwo,
-      condition: whereData.condition
+      condition: whereData.condition,
     };
-    where.table_name = table_name_for_select;
-    where.columnDetail = columnDetail;
-    console.log(columnDetail);
-    console.log(where);
-    alert(selectList);
+    whereList.push(columnDetail_for_where);
+    let whereColumn = {
+      table_name: whereData.table_name,
+      column_list: whereList,
+    };
+    where.push(whereColumn);
+    outputData.select_list = select;
+    outputData.where_list = where;
+    setOutputDataF(e)
+    console.log(outputData);
   };
 
-  // function stringData(){
-  //   setTimeout(() => {
-  //       <div>
-  //        {columns.map((row) => (
-  //          <div>
-  //            <span>
-  //              <input
-  //                type="checkbox"
-  //                name={row.table_name + "." + row.column_name}
-  //                id=""
-  //                onClick={handleChangeList}
-  //              />
-  //            </span>
-  //            <span> </span>
-  //            <span>{row.column_name}</span>
-  //          </div>
-  //        ))}
-  //      </div>
-  //   }, 1000);
-  // }
+  const setOutputDataF = async (e) => {
+    e.preventDefault();
+    console.log(outputData);
+    const responseData = await axios.post(
+      "http://localhost:9003/query/create?userId=1&connectionName=mysqllocal",
+      outputData,
+      {headers: {"Content-Type": "application/json"}}
+    )
+    console.log(outputData);
+    console.log(responseData);
+  }
 
   return (
     <div>
@@ -193,43 +175,82 @@ export default function FormInnerVariable() {
           </ul>
         )}
       </div>
-      <span>
-        <select className="form-select" aria-label="Default select example" placeholder="Select Column"  onChange={handleWhereColumn}>
-          <option value="null">Please Select Column</option>
-          {columns.length > 0 &&
-            columns.map((row) => (
-              <option value={row.column_name} key={row.column_name}>
-                {row.column_name}
+      <div>
+        <span>
+          <select
+            className="form-select"
+            aria-label="Default select example"
+            placeholder="Select Column"
+            onChange={handleWhereColumn}
+          >
+            <option value="null">Please Select Column</option>
+            {columns.length > 0 &&
+              columns.map((row) => (
+                <option
+                  value={
+                    row.table_name +
+                    "." +
+                    row.column_name +
+                    "." +
+                    row.column_type
+                  }
+                  key={row.column_name}
+                >
+                  {row.column_name}
+                </option>
+              ))}
+            ;
+          </select>
+        </span>
+        <span>
+          <select
+            className="form-select"
+            aria-label="Default select example"
+            placeholder="Select Condition"
+            onChange={handleWhereCondition}
+          >
+            {conditionValue.map((data, count) => (
+              <option
+                name="condition"
+                value={conditionConstant[count]}
+                key={data}
+              >
+                {data}
               </option>
             ))}
-          ;
-        </select>
-      </span>
-      <span>
-        <select className="form-select" aria-label="Default select example" placeholder="Select Condition" onChange={handleWhereCondition}>
-          {conditionValue.map((data, count) => (
-            <option name="condition" value={conditionConstant[count]} key={data}>{data}</option>
-          ))}
-        </select>
-      </span>
-      <span className="form-group">
-        <input
-          type="text"
-          className="whereValue"
-          placeholder="Enter Value"
-          onChange={handleWhereValue}
-        />
-      </span>
+          </select>
+        </span>
+        <span className="form-group">
+          <input
+            type="text"
+            className="whereValue"
+            placeholder="Enter Value"
+            onChange={handleWhereValue}
+          />
+        </span>
+      </div>
       <div>
-      <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-        Submit
-      </button>
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={handlePrintData}>
-        PrintData
-      </button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={setOutputDataF}
+        >
+          GetOutPut
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handlePrintData}
+        >
+          PrintData
+        </button>
       </div>
     </div>
   );
