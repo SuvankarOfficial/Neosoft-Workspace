@@ -1,0 +1,35 @@
+.app-container{
+  display: flex;
+  justify-content: center;
+  background-color: pink;
+}
+.tours-container{
+  width: 40%;
+}
+
+.tour-container{
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.tour-image{
+  border-radius: 20px 20px 0 0 ;
+  width: 573px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.tour-detail{
+  padding: 10px 20px 10px 20px;
+}
+
+.tour-detail-header{
+  display: flex;
+  justify-content: space-between;
+}
+
+.tour-detail-button{
+  display: flex;
+  justify-content: space-around;
+}
