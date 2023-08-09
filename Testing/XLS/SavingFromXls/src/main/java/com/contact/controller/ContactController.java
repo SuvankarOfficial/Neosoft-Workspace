@@ -51,7 +51,7 @@ public class ContactController {
     }
 
     @PostMapping("/import")
-    public void importContact(@RequestParam MultipartFile multipartFile,HttpServletResponse response){
+    public void importContact(@RequestParam MultipartFile multipartFile,HttpServletResponse response) throws IOException {
         contactService.importContact(multipartFile,response);
     }
 
