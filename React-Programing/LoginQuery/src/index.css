@@ -1,0 +1,36 @@
+.main-container{
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.inner-container{
+  background-color: white;
+  display: flex;
+  width: fit-content;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+body{
+  background-color: purple;
+}
+
+.left-title{
+  width: 200px;
+}
+
+.question-card{
+  /* transition: height 1s; */
+  margin: 10px;
+  box-shadow: 10px 10px 10px rgb(212, 212, 212);
+  border: 1px solid gray ;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.question-card-title{
+  display: flex;
+  justify-content: space-between; 
+}
+

@@ -1,0 +1,78 @@
+.main {
+  margin: 50px 0 0 0;
+}
+
+.divider{
+  color: rgb(255, 150, 167);
+  /* font-weight: ; */
+}
+
+.header {
+  text-align: center;
+}
+.app {
+  display: flex;
+  justify-content: center;
+}
+
+body {
+  /* background-color: aqua; */
+}
+
+.review-card {
+  background-color: antiquewhite;
+  width: 40%;
+  height: auto;
+  text-align: center;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 10px 5px 5px grey;
+}
+
+.review-image {
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  display: block;
+  box-shadow: 10px 0 10px rgb(255, 150, 167);
+  margin-bottom: 20px;
+}
+
+.review-image-background {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-bottom: 1.5rem;
+  /* background-color: yellow; */
+}
+
+.quote-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  transform: translateY(25%);
+  background: rgb(255, 150, 167);
+  color: white;
+}
+
+.review-name {
+  font-weight: bold;
+}
+
+.review-job {
+  color: blue;
+}
+
+.review-text {
+  text-align: justify;
+  color: grey;
+}
