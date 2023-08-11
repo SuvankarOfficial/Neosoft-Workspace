@@ -27,8 +27,7 @@ public class ContactMapper {
     }
 
     public Contact requestEntityMapperCreate(ContactRequestBean contactRequestBean) {
-        Contact contact = null;
-        return contact.builder()
+        return Contact.builder()
                 .contactName(contactRequestBean.getContactName())
                 .number(contactRequestBean.getNumber())
                 .userId(contactRequestBean.getUserId())

@@ -22,53 +22,50 @@ public class ContactService {
     @Autowired
     private final ContactRepository contactRepository;
 
-    @Autowired
-    private final ContactMapper contactMapper;
 
-    public ResponseBean addContact(ContactRequestBean contactRequestBean){
-        Optional<Contact> existingContact = contactRepository.findByContactName(contactRequestBean.getContactName());
+    public Contact addContact(Contact contact){
+        Optional<Contact> existingContact = contactRepository.findByContactName(contact.getContactName());
         if(existingContact.isEmpty()) {
-            Contact contact = contactMapper.requestEntityMapperCreate(contactRequestBean);
             contact.setStatus(ContactStatus.Active);
             contact = contactRepository.saveAndFlush(contact);
-            return ResponseBean.builder().message("Contact is saved").status(Boolean.TRUE).data(contactMapper.entityResponseMapper(contact)).build();
+            return contact;
         }
         else
-            return ResponseBean.builder().message("Contact Name Already exist").status(Boolean.TRUE).build();
+            return null;
     }
 
-    public ResponseBean findAllContact(){
+    public List<Contact> findAllContact(){
         List<Contact> contacts = contactRepository.findAll();
         if(contacts.isEmpty())
-            return ResponseBean.builder().status(Boolean.TRUE).message("No data Found").build();
+            return null;
 
-        return ResponseBean.builder().status(Boolean.TRUE).data(contacts.stream().map(data-> contactMapper.entityResponseMapper(data))).build();
+        return contacts;
     }
 
-    public ResponseBean findContactById(Long contactId){
+    public Contact findContactById(Long contactId){
         Optional<Contact> contact = contactRepository.findById(contactId);
         if(contact.isPresent())
-            return ResponseBean.builder().status(Boolean.TRUE).data(contactMapper.entityResponseMapper(contact.get())).build();
-        return ResponseBean.builder().status(Boolean.TRUE).message("No data Found").build();
+            return contact.get();
+        return null;
     }
 
-    public ResponseBean updateContact(ContactRequestBean contactRequestBean){
-        Optional<Contact> optionalContact = contactRepository.findById(contactRequestBean.getContactId());
+    public Contact updateContact(Contact contact){
+        Optional<Contact> optionalContact = contactRepository.findById(contact.getContactId());
         if(optionalContact.isEmpty())
-            return ResponseBean.builder().message("No Contact found to update").status(Boolean.TRUE).build();
-        Contact contact = contactMapper.requestEntityMapperUpdate(contactRequestBean, optionalContact.get());
+            return null;
+        contact = optionalContact.get();
         contact = contactRepository.saveAndFlush(contact);
-        return ResponseBean.builder().message("Contact has been updated Successfully").status(Boolean.TRUE).data(contactMapper.entityResponseMapper(contact)).build();
+        return contact;
     }
 
-    public ResponseBean deleteContact(Long contactId){
+    public Contact deleteContact(Long contactId){
         Optional<Contact> optionalContact = contactRepository.findById(contactId);
         if(optionalContact.isEmpty())
-            return ResponseBean.builder().message("No Contact found to delete").status(Boolean.TRUE).build();
+            return null;
         Contact contact = optionalContact.get();
         contact.setStatus(ContactStatus.Deleted);
         contact = contactRepository.saveAndFlush(contact);
-        return ResponseBean.builder().message("Contact has been Deleted Successfull").status(Boolean.TRUE).data(contactMapper.entityResponseMapper(contact)).build();
+        return contact;
     }
 
 }
