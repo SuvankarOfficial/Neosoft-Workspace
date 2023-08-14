@@ -6,7 +6,7 @@ import GetColumnCard from './GetColumnCard';
 
     function getTables() {
         return (
-            <div className='get-column-cards' style={{height : "fit-content"}}>
+            <div className='get-column-cards'>
                 {tables.map((table)=>{
             return <GetColumnCard key={table} tableName={table} getSelectList={getSelectList}/>
           })}
@@ -14,7 +14,7 @@ import GetColumnCard from './GetColumnCard';
         )
     }
   return (
-    getTables()
+      getTables()
   )
 }
 

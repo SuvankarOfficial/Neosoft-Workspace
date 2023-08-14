@@ -2,8 +2,11 @@ import "./App.css";
 import Loading from "./Loading";
 import React, { useEffect, useState } from "react";
 import GetColumnCards from "./GetColumnCards";
+import ConditionQuery from "./ConditionQuery";
 
 function App() {
+  const [conditionQuery, setConditionQuery] = useState(false);
+
   const [table, setTable] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedTable, setSelectedTable] = useState([]);
@@ -32,7 +35,7 @@ function App() {
   }, []);
 
   function getData() {
-    console.log(selectList);
+    console.log(selectedColumnList);
   }
 
   const getSelectedColumnList = (name, checked) => {
@@ -64,7 +67,10 @@ function App() {
     selectedColumnList.map((data) => {
       console.log(data);
       let splitData = data.split(".");
-      if (table_name_for_select.length > 0 && table_name_for_select != splitData[0]) {
+      if (
+        table_name_for_select.length > 0 &&
+        table_name_for_select != splitData[0]
+      ) {
         let selectData = {
           table_name: table_name_for_select,
           columnList: columnListData,
@@ -109,6 +115,10 @@ function App() {
     }
   };
 
+  function setConditionQueryTrue(boolean) {
+    setConditionQuery(boolean)
+  }
+
   if (loading) {
     return <Loading />;
   }
@@ -134,27 +144,32 @@ function App() {
           </div>
           <button onClick={getData}>PrintData</button>
         </div>
-        <div>
-          <GetColumnCards
-            getTable={selectedTable}
-            getSelectList={getSelectedColumnList}
-          />
-        </div>
-        <div>
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={submitData}
-          >
-            Submit
-          </button>
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={getOutputData}
-          >
-            getOutput
-          </button>
+        <div className="right-column">
+          <div className="show-column" style={conditionQuery ? {height : "375px"} : {height : "575px"}}>
+            <GetColumnCards
+              getTable={selectedTable}
+              getSelectList={getSelectedColumnList}
+            />
+          </div>
+          <div className="where-area">
+            <ConditionQuery queryCondition={conditionQuery} setValueQueryCondition={setConditionQueryTrue} selectedColumnName={selectedColumnList}/>
+          </div>
+          <div className="bottom-button mt-3">
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={submitData}
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={getOutputData}
+            >
+              getOutput
+            </button>
+          </div>
         </div>
       </div>
     );

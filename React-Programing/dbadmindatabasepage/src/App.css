@@ -34,8 +34,47 @@
 
 .get-column-cards{
   display: flex;
-  /* width: 600px; */
+  width: 78vw;
   flex-wrap: wrap;
-  flex-shrink: inherit;
-  overflow-wrap: break-word;
+  border: 1px solid blue;
+  overflow: scroll;
+}
+
+.bottom-button{
+  width: 78vw;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; 
+  animation: spin 2s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -50px 0 0 -50px;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.show-column{
+  overflow: scroll;
+}
+
+.where-column{
+  display: flex;
+  justify-content: space-between;
 }

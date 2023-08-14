@@ -40,7 +40,7 @@ const GetColumnCard = ({ tableName, getSelectList }) => {
       <h3>{tableName}</h3>
       {columnDetails.map((column) => (
         <div key={column.column_name}>
-          <input type="checkbox" name={column.table_name+"."+column.column_name} id="" onClick={passToSelectList}/>
+          <input type="checkbox" name={column.table_name+"."+column.column_name+"."+column.column_type} id="" onClick={passToSelectList}/>
           {column.column_name}
         </div>
       ))}
