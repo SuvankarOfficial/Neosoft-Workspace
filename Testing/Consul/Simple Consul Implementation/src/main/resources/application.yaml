@@ -1,0 +1,19 @@
+server:
+  port: 9002
+
+spring:
+  application:
+    name: CONTACT-SERVICE
+  datasource:
+    url: jdbc:mysql://localhost:3306/sample
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  cloud:
+    consul:
+      discovery:
+        prefer-ip-address: true
