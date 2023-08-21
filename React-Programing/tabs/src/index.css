@@ -1,0 +1,37 @@
+.title {
+  text-align: center;
+}
+
+.bottom-box {
+  display: flex;
+}
+
+.bottom-left-box{
+  background-color: red;
+  /* padding: 0px; */
+  height: 88vh;
+  width: 275px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.job-button{
+  text-align: center;
+  border-radius: 10px;
+  margin: 10px;
+  width: 200px; 
+}
+
+.job-button-active{
+  text-align: center;
+  border-radius: 10px;
+  margin: 10px;
+  width: 200px; 
+  background-color: white;
+  color: #007bff;;
+}
+
+.bottom-right-box{
+  padding: 30px;
+}
