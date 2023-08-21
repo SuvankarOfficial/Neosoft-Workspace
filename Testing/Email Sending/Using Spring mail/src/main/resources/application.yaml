@@ -1,0 +1,24 @@
+server:
+  port: 9002
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: shivatneosoft@gmail.com
+    password: xmqehklbxtetlxly
+    properties:
+      mail:
+        smtp:
+          auth : true
+          starttls:
+            enable: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/sample
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
