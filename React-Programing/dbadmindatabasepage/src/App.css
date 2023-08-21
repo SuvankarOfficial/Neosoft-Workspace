@@ -78,3 +78,13 @@
   display: flex;
   justify-content: space-between;
 }
+
+.order-by-column{
+  display: flex;
+  justify-content: space-around;
+}
+
+.group-by-column{
+  display: flex;
+  justify-content: space-around;
+}

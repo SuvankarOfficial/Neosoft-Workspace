@@ -1,16 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import WhereColumn from "./WhereColumn";
 
-function Where({ optionsForWhere }) {
-  const [whereConditionValue, setWhereConditionValue] = useState([""]);
-
-  function addnewDataWhereCondition(id) {
-    if (id === undefined)
-      setWhereConditionValue((data) => [...data,""]);
-    else {
-      setWhereConditionValue(whereConditionValue.filter((data,index) => index !== id))
-    }
-  }
+function Where({ optionsForWhere,whereConditionValue,setWhereConditionValue }) {
 
   function setDataWhereConditionValue(id, value) {
     whereConditionValue[id] = value;
@@ -25,8 +16,8 @@ function Where({ optionsForWhere }) {
     "GTEQ",
     "BWT",
     "CS",
-    "NCS"
-];
+    "NCS",
+  ];
   const conditionValue = [
     "EQUALS",
     "NOT EQUALS",
@@ -36,21 +27,30 @@ function Where({ optionsForWhere }) {
     "GREATER THAN OR EQUAL TO",
     "BETWEEN",
     "CONTAINS",
-    "NOT CONTAINS"
+    "NOT CONTAINS",
   ];
 
   return (
     <div>
+      <button
+        type="button"
+        className="btn btn-info"
+        onClick={() => setWhereConditionValue(undefined)}
+      >
+        +
+      </button>
       {whereConditionValue.map((whereColumnsList, index) => {
         return (
-          <WhereColumn
-            conditionConstant={conditionConstant}
-            conditionValue={conditionValue}
-            optionsForWhere={optionsForWhere}
-            addnewDataWhereCondition={addnewDataWhereCondition}
-            setDataWhereConditionValue={setDataWhereConditionValue}
-            id={index}
-          />
+          <div>
+            <WhereColumn
+              conditionConstant={conditionConstant}
+              conditionValue={conditionValue}
+              optionsForWhere={optionsForWhere}
+              dataWhereCondition={setWhereConditionValue}
+              setDataWhereConditionValue={setDataWhereConditionValue}
+              id={index}
+            />
+          </div>
         );
       })}
     </div>

@@ -4,7 +4,7 @@ export default function WhereColumn({
   optionsForWhere,
   conditionConstant,
   conditionValue,
-  addnewDataWhereCondition,
+  dataWhereCondition,
   setDataWhereConditionValue,
   id,
 }) {
@@ -47,19 +47,19 @@ export default function WhereColumn({
         placeholder="Select Condition"
       >
         {conditionValue.map((data, count) => (
-          <option name="condition" value={conditionConstant[count]} key={data}>
+          <option name="condition" value={conditionConstant[count]} key={data} onClick={setCondition}>
             {data}
           </option>
         ))}
       </select>
       <div>Enter Value</div>
-      <input type="text" placeholder="Enter Value" />
+      <input type="text" placeholder="Enter Value" onClick={setValue}/>
       <button
         type="button"
-        className="btn btn-info"
-        onClick={()=>addnewDataWhereCondition(undefined)}
+        className="btn btn-danger"
+        onClick={()=>dataWhereCondition(id)}
       >
-        +
+        -
       </button>
     </div>
   );
