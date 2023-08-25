@@ -36,8 +36,7 @@
   display: flex;
   width: 78vw;
   flex-wrap: wrap;
-  border: 1px solid blue;
-  overflow: scroll;
+  border: 1px solid blue; 
 }
 
 .bottom-button{
@@ -71,7 +70,9 @@
 }
 
 .show-column{
-  overflow: scroll;
+  overflow-x: scroll;
+  overflow-y: wrap;
+  scrollbar-width: none;
 }
 
 .where-column{

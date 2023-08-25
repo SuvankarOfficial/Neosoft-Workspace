@@ -9,7 +9,6 @@ export default function WhereColumn({
   id,
 }) {
   const [finalValue, setFinalValue] = useState("/EQ/");
-  console.log(id);
   function setName(e) {
     const [value] = e.target;
     if (value !== "null") {

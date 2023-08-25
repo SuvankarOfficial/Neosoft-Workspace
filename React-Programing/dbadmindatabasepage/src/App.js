@@ -13,6 +13,14 @@ function App() {
   const [selectedColumnList, setSelectedColumnList] = useState([]);
 
   var selectList = [];
+  var selectData = {
+    table_name: "",
+    columnList: [],
+  };
+  var selectData = {
+    table_name: "",
+    columnList: [],
+  };
 
   const url =
     "http://localhost:9003/query/get-all-tables?userId=1&connectionName=mysqlLocal";
@@ -65,7 +73,6 @@ function App() {
     let columnListData = [];
     let table_name_for_select = "";
     selectedColumnList.map((data) => {
-      console.log(data);
       let splitData = data.split(".");
       if (
         table_name_for_select.length > 0 &&
@@ -85,10 +92,8 @@ function App() {
       };
       columnListData.push(columnData);
     });
-    let selectData = {
-      table_name: table_name_for_select,
-      columnList: columnListData,
-    };
+    selectData.table_name =  table_name_for_select
+    selectData.columnList =  columnListData
     selectList.push(selectData);
     console.log(selectList);
   }
@@ -103,7 +108,7 @@ function App() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(selectList),
+          body: selectList,
         }
       );
       const tables = await response.json();
