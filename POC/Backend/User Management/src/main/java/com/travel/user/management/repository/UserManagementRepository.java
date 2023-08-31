@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserManagementRepository extends JpaRepository<UserManagementEntity,Long> {
 
+    public Boolean existsByUserManagementUniqueId(String userManagementUniqueId);
+
 }

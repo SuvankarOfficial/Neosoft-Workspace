@@ -1,0 +1,27 @@
+server:
+    port: 9003
+
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://rain.db.elephantsql.com:5432/thkzbvcg
+        username: thkzbvcg
+        password: Aq7_NIE9k4KlkQnn3ieddgdt38iyhvyo
+    jpa:
+      show-sql: true
+      hibernate:
+        ddl-auto: create
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userService:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED

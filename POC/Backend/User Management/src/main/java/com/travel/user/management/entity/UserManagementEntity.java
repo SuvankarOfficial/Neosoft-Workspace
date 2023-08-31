@@ -18,6 +18,9 @@ public class UserManagementEntity {
     @Column(name = "um_id", nullable = false)
     private Long userManagementId;
 
+    @Column(name = "um_unique_id")
+    private String userManagementUniqueId;
+
     @Column(name = "um_username")
     private String username;
 

@@ -1,4 +1,4 @@
-package com.shiv.util;
+package com.travel.experience.listing.util;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;

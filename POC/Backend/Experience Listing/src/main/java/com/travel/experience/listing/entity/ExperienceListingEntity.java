@@ -2,6 +2,7 @@ package com.travel.experience.listing.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,12 +10,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "experience_listing")
-public class ExperienceListing {
+public class ExperienceListingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "el_id", nullable = false)
-    private Long elId;
+    private Long experienceListingId;
+
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String experienceListingUniqueId;
 
     @Column(name = "el_name")
     private String name;
@@ -35,6 +40,15 @@ public class ExperienceListing {
     private Long availability;
 
     @Lob()
-    @Column(name = "el_image", length = 5000)
+    @Column(name = "el_image", length = 16777215)
     private byte[] image;
+
+    @Column(name = "el_image_name")
+    private String imageName;
+
+    @Column(name = "el_image_type")
+    private String imageType;
+
+    @Column(name = "el_status")
+    private Boolean status;
 }
