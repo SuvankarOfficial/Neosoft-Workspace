@@ -1,0 +1,9 @@
+server:
+  port: 9004
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://10.0.62.13:27017/itinerary_management?authSource=admin
+      username: admin
+      password: password

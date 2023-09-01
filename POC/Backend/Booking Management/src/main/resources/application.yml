@@ -12,10 +12,15 @@ spring:
       hibernate:
         ddl-auto: create
 
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+
 resilience4j:
   circuitbreaker:
     instances:
-      userService:
+      booking-management-service:
         registerHealthIndicator: true
         eventConsumerBufferSize: 10
         failureRateThreshold: 50

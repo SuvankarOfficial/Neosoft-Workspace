@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Table(name = "user_management")
-public class UserManagementEntity {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "um_id", nullable = false)
-    private Long userManagementId;
+    private Long userId;
 
     @Column(name = "um_unique_id")
-    private String userManagementUniqueId;
+    private String userUniqueId;
 
     @Column(name = "um_username")
     private String username;

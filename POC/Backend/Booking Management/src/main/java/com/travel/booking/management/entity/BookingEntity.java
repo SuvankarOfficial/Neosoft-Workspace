@@ -13,20 +13,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Table(name = "booking_management")
-public class BookingManagementEntity {
+public class BookingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bm_id", nullable = false)
-    private Long bookingManagementId;
+    private Long bookingId;
 
     @Column(name = "bm_unique_id")
-    private String bookingManagementUniqueId;
+    private String bookingUniqueId;
 
     @Column(name = "bm_user_unique_id")
     private String userId;
 
-    @Column(name = "bm_experince_unique_id")
+    @Column(name = "bm_experience_unique_id")
     private String experienceId;
 
     @Column(name = "bm_booking_date")

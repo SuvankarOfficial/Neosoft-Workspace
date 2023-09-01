@@ -1,7 +1,7 @@
 package com.travel.experience.listing.controller;
 
 import com.travel.experience.listing.bean.response.ServiceResponseBean;
-import com.travel.experience.listing.entity.ExperienceListingEntity;
+import com.travel.experience.listing.entity.ExperienceEntity;
 import com.travel.experience.listing.service.IExperienceListingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -34,17 +34,17 @@ public class ExperienceListingController {
     }
 
     @PostMapping(value="/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ServiceResponseBean addExperienceListing(@RequestPart("experienceListing") ExperienceListingEntity experienceListing, @RequestPart("image") MultipartFile multipartFile) throws IOException {
+    public ServiceResponseBean addExperienceListing(@RequestPart("experienceListing") ExperienceEntity experienceListing, @RequestPart("image") MultipartFile multipartFile) throws IOException {
         return this.experienceListingService.addExperienceListing(experienceListing,multipartFile);
     }
 
     @PutMapping("/update-with-image")
-    public ServiceResponseBean updateExperienceListingWithImage(@RequestPart("experienceListing") ExperienceListingEntity experienceListing,@RequestPart("image") MultipartFile multipartFile) throws IOException {
+    public ServiceResponseBean updateExperienceListingWithImage(@RequestPart("experienceListing") ExperienceEntity experienceListing, @RequestPart("image") MultipartFile multipartFile) throws IOException {
         return this.experienceListingService.updateExperienceListing(experienceListing,multipartFile);
     }
 
     @PutMapping("/update")
-    public ServiceResponseBean updateExperienceListing(@RequestBody ExperienceListingEntity experienceListing) throws IOException {
+    public ServiceResponseBean updateExperienceListing(@RequestBody ExperienceEntity experienceListing) throws IOException {
         return this.experienceListingService.updateExperienceListing(experienceListing,null);
     }
 

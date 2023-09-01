@@ -1,7 +1,7 @@
 package com.travel.booking.management.service.implementation;
 
 import com.travel.booking.management.bean.response.ServiceResponseBean;
-import com.travel.booking.management.entity.BookingManagementEntity;
+import com.travel.booking.management.entity.BookingEntity;
 import com.travel.booking.management.feign.IExperienceListingService;
 import com.travel.booking.management.feign.IUserManagementService;
 import com.travel.booking.management.repository.BookingManagementRepository;
@@ -29,72 +29,58 @@ public class BookingManagementServiceImpl implements IBookingManagementService {
     public ServiceResponseBean findById(Long bookingManagementId) {
         if (bookingManagementId == null)
             return ServiceResponseBean.builder().status(Boolean.FALSE).error("bookingManagementId Cannot be null").build();
-        Optional<BookingManagementEntity> bookingManagementEntityOptional = this.bookingManagementRepository.findById(bookingManagementId);
+        Optional<BookingEntity> bookingManagementEntityOptional = this.bookingManagementRepository.findById(bookingManagementId);
         if (bookingManagementEntityOptional.isEmpty())
             return ServiceResponseBean.builder().status(Boolean.FALSE).error("No data").build();
-        BookingManagementEntity bookingManagementEntity = bookingManagementEntityOptional.get();
-        return ServiceResponseBean.builder().status(Boolean.TRUE).data(bookingManagementEntity).build();
+        BookingEntity bookingEntity = bookingManagementEntityOptional.get();
+        return ServiceResponseBean.builder().status(Boolean.TRUE).data(bookingEntity).build();
     }
 
     public ServiceResponseBean findAll() {
-        List<BookingManagementEntity> bookingManagementEntityList = this.bookingManagementRepository.findAll();
-        if (bookingManagementEntityList.isEmpty())
+        List<BookingEntity> bookingEntityList = this.bookingManagementRepository.findAll();
+        if (bookingEntityList.isEmpty())
             return ServiceResponseBean.builder().status(Boolean.FALSE).error("No data").build();
-        return ServiceResponseBean.builder().status(Boolean.TRUE).data(bookingManagementEntityList).build();
+        return ServiceResponseBean.builder().status(Boolean.TRUE).data(bookingEntityList).build();
     }
 
-    public ServiceResponseBean addBookingManagement(BookingManagementEntity bookingManagement) {
+    @CircuitBreaker(name = "booking-management-service", fallbackMethod = "serviceNotAvailable")
+    public ServiceResponseBean addBookingManagement(BookingEntity bookingManagement) {
         if (bookingManagement == null)
             return ServiceResponseBean.builder().status(Boolean.FALSE).data("BookingManagement is null").build();
         if(bookingManagement.getUserId() == null)
             return ServiceResponseBean.builder().status(Boolean.FALSE).data("userID is null").build();
-        if(checkIfUserExist(bookingManagement.getUserId()))
+        if(!(this.userManagementService.existByUserManagementUniqueId(bookingManagement.getUserId())))
             return ServiceResponseBean.builder().status(Boolean.FALSE).data("userID doesnot exist").build();
         if(bookingManagement.getExperienceId() == null)
             return ServiceResponseBean.builder().status(Boolean.FALSE).data("Experience ID is null").build();
-        if(checkIfExperienceExist(bookingManagement.getExperienceId()))
+        if(!(this.experienceListingService.existByExperienceListingUniqueId(bookingManagement.getExperienceId())))
             return ServiceResponseBean.builder().status(Boolean.FALSE).data("Experience ID doesnot exist").build();
-        bookingManagement.setBookingManagementUniqueId(UUID.randomUUID().toString());
-        BookingManagementEntity savedBookingManagement = this.bookingManagementRepository.save(bookingManagement);
+        bookingManagement.setBookingUniqueId(UUID.randomUUID().toString());
+        BookingEntity savedBookingManagement = this.bookingManagementRepository.save(bookingManagement);
         return ServiceResponseBean.builder().status(Boolean.TRUE).data(savedBookingManagement).build();
     }
 
-    @CircuitBreaker(name = "BookingManagementServiceImpl", fallbackMethod = "ErrorConnectingUserManagementService")
-    private boolean checkIfUserExist(String userId) {
-        Boolean exist = this.userManagementService.existByUserManagementUniqueId(userId);
-        return !exist;
+    public ServiceResponseBean serviceNotAvailable(Exception e){
+        return ServiceResponseBean.builder().error("Service Not Available, Please try later").build();
     }
 
-    @CircuitBreaker(name = "BookingManagementServiceImpl", fallbackMethod = "backUpMethodForCircuitBreaker")
-    private boolean checkIfExperienceExist(String experienceId) {
-        return !(this.experienceListingService.existByExperienceListingUniqueId(experienceId));
-    }
-
-    public Boolean backUpMethodForCircuitBreaker(Exception e){
-        return Boolean.FALSE;
-    }
-
-    public ServiceResponseBean ErrorConnectingUserManagementService(Exception e,String experienceId){
-        return ServiceResponseBean.builder().error(e.getMessage()).build();
-    }
-
-    public ServiceResponseBean updateBookingManagement(BookingManagementEntity bookingManagement) {
+    public ServiceResponseBean updateBookingManagement(BookingEntity bookingManagement) {
         if (bookingManagement == null)
             return ServiceResponseBean.builder().status(Boolean.FALSE).data("BookingManagement is null").build();
-        if (bookingManagement.getBookingManagementId() == null)
+        if (bookingManagement.getBookingId() == null)
             return ServiceResponseBean.builder().status(Boolean.FALSE).data("BookingManagement Id is null").build();
-        Optional<BookingManagementEntity> bookingManagementEntityOptional = this.bookingManagementRepository.findById(bookingManagement.getBookingManagementId());
+        Optional<BookingEntity> bookingManagementEntityOptional = this.bookingManagementRepository.findById(bookingManagement.getBookingId());
         if(bookingManagementEntityOptional.isEmpty())
             return ServiceResponseBean.builder().status(Boolean.FALSE).data("No Data to update").build();
         bookingManagement = updateBookingManagementDatabaseToNewObject(bookingManagement, bookingManagementEntityOptional.get());
-        BookingManagementEntity savedBookingManagement = this.bookingManagementRepository.save(bookingManagement);
+        BookingEntity savedBookingManagement = this.bookingManagementRepository.save(bookingManagement);
         return ServiceResponseBean.builder().status(Boolean.TRUE).data(savedBookingManagement).build();
     }
 
-    private BookingManagementEntity updateBookingManagementDatabaseToNewObject(BookingManagementEntity bookingManagement, BookingManagementEntity databaseBookingManagement) {
-        return databaseBookingManagement.builder()
-                .bookingManagementId(databaseBookingManagement.getBookingManagementId())
-                .bookingManagementUniqueId(bookingManagement.getBookingManagementUniqueId() != null ? bookingManagement.getBookingManagementUniqueId() : databaseBookingManagement.getBookingManagementUniqueId())
+    private BookingEntity updateBookingManagementDatabaseToNewObject(BookingEntity bookingManagement, BookingEntity databaseBookingManagement) {
+        return BookingEntity.builder()
+                .bookingId(databaseBookingManagement.getBookingId())
+                .bookingUniqueId(bookingManagement.getBookingUniqueId() != null ? bookingManagement.getBookingUniqueId() : databaseBookingManagement.getBookingUniqueId())
                 .userId(bookingManagement.getUserId() != null ? bookingManagement.getUserId() : databaseBookingManagement.getUserId())
                 .experienceId(bookingManagement.getExperienceId() != null ? bookingManagement.getExperienceId() : databaseBookingManagement.getExperienceId())
                 .bookingDate(bookingManagement.getBookingDate() != null ? bookingManagement.getBookingDate() : databaseBookingManagement.getBookingDate())
@@ -108,12 +94,12 @@ public class BookingManagementServiceImpl implements IBookingManagementService {
     public ServiceResponseBean deleteBookingManagement(Long bookingManagementId) {
         if (bookingManagementId == null)
             return ServiceResponseBean.builder().status(Boolean.FALSE).data("BookingManagement Id is null").build();
-        Optional<BookingManagementEntity> bookingManagementEntityOptional = this.bookingManagementRepository.findById(bookingManagementId);
+        Optional<BookingEntity> bookingManagementEntityOptional = this.bookingManagementRepository.findById(bookingManagementId);
         if(bookingManagementEntityOptional.isEmpty())
             return ServiceResponseBean.builder().status(Boolean.TRUE).error("No Data").build();
-        BookingManagementEntity bookingManagementEntity = bookingManagementEntityOptional.get();
-        bookingManagementEntity.setStatus("Cancelled");
-        BookingManagementEntity savedBookingManagement = this.bookingManagementRepository.save(bookingManagementEntity);
+        BookingEntity bookingEntity = bookingManagementEntityOptional.get();
+        bookingEntity.setStatus("Cancelled");
+        BookingEntity savedBookingManagement = this.bookingManagementRepository.save(bookingEntity);
         return ServiceResponseBean.builder().status(Boolean.TRUE).data(savedBookingManagement).build();
     }
 

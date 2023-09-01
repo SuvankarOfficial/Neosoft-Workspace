@@ -1,7 +1,7 @@
 package com.travel.experience.listing.service;
 
 import com.travel.experience.listing.bean.response.ServiceResponseBean;
-import com.travel.experience.listing.entity.ExperienceListingEntity;
+import com.travel.experience.listing.entity.ExperienceEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,9 +13,9 @@ public interface IExperienceListingService {
 
     public ServiceResponseBean findAll();
 
-    public ServiceResponseBean addExperienceListing(ExperienceListingEntity experienceListing, MultipartFile image) throws IOException;
+    public ServiceResponseBean addExperienceListing(ExperienceEntity experienceListing, MultipartFile image) throws IOException;
 
-    public ServiceResponseBean updateExperienceListing(ExperienceListingEntity experienceListing,MultipartFile image) throws IOException ;
+    public ServiceResponseBean updateExperienceListing(ExperienceEntity experienceListing, MultipartFile image) throws IOException ;
 
     public ServiceResponseBean deleteExperienceListing(Long experienceListingId);
 

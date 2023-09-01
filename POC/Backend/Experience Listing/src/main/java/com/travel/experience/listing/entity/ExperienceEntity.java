@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Table(name = "experience_listing")
-public class ExperienceListingEntity {
+public class ExperienceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "el_id", nullable = false)
-    private Long experienceListingId;
+    private Long experienceId;
 
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String experienceListingUniqueId;
+    private String experienceUniqueId;
 
     @Column(name = "el_name")
     private String name;
