@@ -2,20 +2,22 @@ package com.itinerary.itinerary.management.controller;
 
 import com.itinerary.itinerary.management.bean.response.ServiceResponseBean;
 import com.itinerary.itinerary.management.entity.ItineraryEntity;
+import com.itinerary.itinerary.management.service.IItineraryExampleService;
 import com.itinerary.itinerary.management.service.IItineraryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/itinarary")
+@RequestMapping("/itinerary")
 public class ItineraryController{
 
     @Autowired
-    public IItineraryService itineraryService;
+    public IItineraryExampleService itineraryService;
 
-    @GetMapping("/find-by-id/{itineraryId}")
-    public ServiceResponseBean findById(@PathVariable("itineraryId") Long itineraryId) {
-        return this.itineraryService.findById(itineraryId);
+    @GetMapping("/find-by-id/{itineraryUniqueId}")
+    public ServiceResponseBean findById(@PathVariable("itineraryUniqueId") String itineraryUniqueId) {
+        return this.itineraryService.findById(itineraryUniqueId);
     }
 
     @GetMapping("/find-all")
@@ -23,18 +25,18 @@ public class ItineraryController{
         return this.itineraryService.findAll();
     }
 
-    @PostMapping(value="/add")
+    @PostMapping("/add")
     public ServiceResponseBean addUser(@RequestBody ItineraryEntity itineraryEntity) {
-        return this.itineraryService.addItinerary(itineraryEntity);
+        return this.itineraryService.add(itineraryEntity);
     }
 
     @PutMapping("/update")
     public ServiceResponseBean updateUser(@RequestBody ItineraryEntity itineraryEntity) {
-        return this.itineraryService.updateItinerary(itineraryEntity);
+        return this.itineraryService.update(itineraryEntity);
     }
 
-    @DeleteMapping("/delete/{userId}")
-    public ServiceResponseBean deleteUser(@PathVariable("itineraryId") Long itineraryId) {
-        return this.itineraryService.deleteItinerary(itineraryId);
+    @DeleteMapping("/delete/{itineraryUniqueId}")
+    public ServiceResponseBean deleteUser(@PathVariable("itineraryUniqueId") String itineraryUniqueId) {
+        return this.itineraryService.delete(itineraryUniqueId);
     }
 }

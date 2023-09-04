@@ -5,7 +5,7 @@ import com.travel.user.management.entity.UserEntity;
 
 public interface IUserService {
 
-    public ServiceResponseBean findById(Long userId);
+    public ServiceResponseBean findById(String userUniqueId);
 
     public ServiceResponseBean findAll();
 
@@ -13,7 +13,7 @@ public interface IUserService {
 
     public ServiceResponseBean updateUser(UserEntity userEntity);
 
-    public ServiceResponseBean deleteUser(Long userId);
+    public ServiceResponseBean deleteUser(String userUniqueId);
 
     public Boolean existByUserUniqueId(String userUniqueId);
 }

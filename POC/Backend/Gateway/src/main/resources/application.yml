@@ -1,0 +1,35 @@
+server:
+  port: 9006
+  
+spring:
+  application:
+    name: TRAVEL-GATEWAY
+  cloud:
+    consul:
+      discovery:
+        prefer-ip-address: true
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user/**
+        - id: EXPERIENCE-SERVICE
+          uri: lb://EXPERIENCE-SERVICE
+          predicates:
+            - Path=/experience/**
+        - id: REVIEW-SERVICE
+          uri: lb://REVIEW-SERVICE
+          predicates:
+            - Path=/review/**
+        - id: BOOKING-MANAGEMENT
+          uri: lb://BOOKING-MANAGEMENT
+          predicates:
+            - Path=/booking/**
+        - id: ITINERARY-SERVICE
+          uri: lb://ITINERARY-SERVICE
+          predicates:
+            - Path=/itinerary-entry/*,/itinerary/*
+
+
+

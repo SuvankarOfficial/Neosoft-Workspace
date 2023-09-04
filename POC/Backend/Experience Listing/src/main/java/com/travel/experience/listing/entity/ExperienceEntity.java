@@ -18,7 +18,7 @@ public class ExperienceEntity {
     @Column(name = "el_id", nullable = false)
     private Long experienceId;
 
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "el_unique_id", unique = true)
     private String experienceUniqueId;
 
     @Column(name = "el_name")
@@ -38,6 +38,9 @@ public class ExperienceEntity {
 
     @Column(name = "el_availability")
     private Long availability;
+
+    @Column(name = "el_duration")
+    private Long duration;
 
     @Lob()
     @Column(name = "el_image", length = 16777215)

@@ -2,6 +2,8 @@ package com.travel.user.management.service.implementation;
 
 import com.travel.user.management.bean.response.ServiceResponseBean;
 import com.travel.user.management.entity.UserEntity;
+import com.travel.user.management.global.exceptional.CannotBeNullException;
+import com.travel.user.management.global.exceptional.DoesNotExistException;
 import com.travel.user.management.repository.UserRepository;
 import com.travel.user.management.service.IUserService;
 import com.travel.user.management.service.IUserService;
@@ -18,26 +20,24 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserRepository userRepository;
 
-    public ServiceResponseBean findById(Long userId) {
-        if (userId == null)
-            return ServiceResponseBean.builder().status(Boolean.FALSE).error("UserId Cannot be null").build();
-        Optional<UserEntity> userEntityOptional = this.userRepository.findById(userId);
+    public ServiceResponseBean findById(String userUniqueId) {
+        if (userUniqueId == null)
+            throw new CannotBeNullException("User Id");
+        Optional<UserEntity> userEntityOptional = this.userRepository.findByUserUniqueId(userUniqueId);
         if (userEntityOptional.isEmpty())
-            return ServiceResponseBean.builder().status(Boolean.FALSE).error("No data").build();
+            throw new DoesNotExistException("User Id");
         UserEntity userEntity = userEntityOptional.get();
         return ServiceResponseBean.builder().status(Boolean.TRUE).data(userEntity).build();
     }
 
     public ServiceResponseBean findAll() {
         List<UserEntity> userEntityList = this.userRepository.findAll();
-        if (userEntityList.isEmpty())
-            return ServiceResponseBean.builder().status(Boolean.FALSE).error("No data").build();
         return ServiceResponseBean.builder().status(Boolean.TRUE).data(userEntityList).build();
     }
 
     public ServiceResponseBean addUser(UserEntity userEntity) {
         if (userEntity == null)
-            return ServiceResponseBean.builder().status(Boolean.FALSE).data("No User is null").build();
+            throw new CannotBeNullException("User");
         userEntity.setUserUniqueId(UUID.randomUUID().toString());
         UserEntity savedUserEntity = this.userRepository.save(userEntity);
         return ServiceResponseBean.builder().status(Boolean.TRUE).data(savedUserEntity).build();
@@ -45,12 +45,12 @@ public class UserServiceImpl implements IUserService {
 
     public ServiceResponseBean updateUser(UserEntity userEntity) {
         if (userEntity == null)
-            return ServiceResponseBean.builder().status(Boolean.FALSE).data("User is null").build();
-        if (userEntity.getUserId() == null)
-            return ServiceResponseBean.builder().status(Boolean.FALSE).data("User Id is null").build();
-        Optional<UserEntity> userEntityOptional = this.userRepository.findById(userEntity.getUserId());
+            throw new CannotBeNullException("User");
+        if (userEntity.getUserUniqueId() == null || userEntity.getUserUniqueId().isBlank())
+            throw new CannotBeNullException("User Id");
+        Optional<UserEntity> userEntityOptional = this.userRepository.findByUserUniqueId(userEntity.getUserUniqueId());
         if (userEntityOptional.isEmpty())
-            return ServiceResponseBean.builder().status(Boolean.FALSE).data("No Data to update").build();
+            throw new DoesNotExistException("User Id");
         userEntity = updateUserDatabaseToNew(userEntity, userEntityOptional.get());
         UserEntity savedUserEntity = this.userRepository.save(userEntity);
         return ServiceResponseBean.builder().status(Boolean.TRUE).data(savedUserEntity).build();
@@ -58,8 +58,8 @@ public class UserServiceImpl implements IUserService {
 
     private UserEntity updateUserDatabaseToNew(UserEntity userEntity, UserEntity databaseUserEntity) {
         return databaseUserEntity.builder()
-                .userId(userEntity.getUserId())
-                .userUniqueId(userEntity.getUserUniqueId() != null ? userEntity.getUserUniqueId() : databaseUserEntity.getUserUniqueId())
+                .userId(databaseUserEntity.getUserId())
+                .userUniqueId(userEntity.getUserUniqueId())
                 .username(userEntity.getUsername() != null ? userEntity.getUsername() : databaseUserEntity.getUsername())
                 .password(userEntity.getPassword() != null ? userEntity.getPassword() : databaseUserEntity.getPassword())
                 .email(userEntity.getEmail() != null ? userEntity.getEmail() : databaseUserEntity.getEmail())
@@ -70,12 +70,12 @@ public class UserServiceImpl implements IUserService {
                 .build();
     }
 
-    public ServiceResponseBean deleteUser(Long userId) {
-        if (userId == null)
-            return ServiceResponseBean.builder().status(Boolean.FALSE).data("User Id is null").build();
-        Optional<UserEntity> userEntityOptional = this.userRepository.findById(userId);
+    public ServiceResponseBean deleteUser(String userUniqueId) {
+        if (userUniqueId == null)
+            throw new CannotBeNullException("User Id");
+        Optional<UserEntity> userEntityOptional = this.userRepository.findByUserUniqueId(userUniqueId);
         if(userEntityOptional.isEmpty())
-            return ServiceResponseBean.builder().status(Boolean.TRUE).error("No Data").build();
+            throw new DoesNotExistException("User Id");
         UserEntity userEntity = userEntityOptional.get();
         userEntity.setStatus(Boolean.FALSE);
         UserEntity savedUser = this.userRepository.save(userEntity);

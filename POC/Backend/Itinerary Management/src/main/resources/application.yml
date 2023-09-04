@@ -2,8 +2,15 @@ server:
   port: 9004
 
 spring:
+  application:
+    name: ITINERARY-SERVICE
+
   data:
     mongodb:
-      uri: mongodb://10.0.62.13:27017/itinerary_management?authSource=admin
-      username: admin
-      password: password
+      uri: mongodb+srv://jvo55580:ankit@travel.3mrqbxo.mongodb.net/?retryWrites=true&w=majority
+      database: itinerary_management
+
+  cloud:
+    consul:
+      discovery:
+        prefer-ip-address: true

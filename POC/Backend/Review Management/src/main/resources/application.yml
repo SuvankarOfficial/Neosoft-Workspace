@@ -1,0 +1,16 @@
+server:
+  port: 9005
+
+spring:
+  application:
+    name: REVIEW-SERVICE
+
+  data:
+    mongodb:
+      uri: mongodb+srv://jvo55580:ankit@travel.3mrqbxo.mongodb.net/?retryWrites=true&w=majority
+      database: review_management
+  
+  cloud:
+    consul:
+      discovery:
+        prefer-ip-address: true

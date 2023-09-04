@@ -16,8 +16,6 @@ import java.lang.annotation.Documented;
 @Document("itinerary")
 public class ItineraryEntity {
     @Id
-    private Long itineraryId;
-
     private String itineraryUniqueId;
 
     private String userUniqueId;

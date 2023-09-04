@@ -20,7 +20,7 @@ public class BookingEntity {
     @Column(name = "bm_id", nullable = false)
     private Long bookingId;
 
-    @Column(name = "bm_unique_id")
+    @Column(name = "bm_unique_id", unique = true)
     private String bookingUniqueId;
 
     @Column(name = "bm_user_unique_id")

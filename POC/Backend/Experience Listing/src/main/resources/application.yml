@@ -2,6 +2,8 @@ server:
   port: 9001
 
 spring:
+  application:
+    name: EXPERIENCE-SERVICE
   datasource:
     url: jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12643291
     username: sql12643291
@@ -11,3 +13,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+
+  cloud:
+    consul:
+      discovery:
+        prefer-ip-address: true

@@ -2,8 +2,12 @@ package com.itinerary.itinerary.management.service.implementation;
 
 import com.itinerary.itinerary.management.bean.response.ServiceResponseBean;
 import com.itinerary.itinerary.management.entity.ItineraryEntryEntity;
+import com.itinerary.itinerary.management.feign.IExperienceListingService;
+import com.itinerary.itinerary.management.global.exceptional.CannotBeNullException;
+import com.itinerary.itinerary.management.global.exceptional.DoesNotExistException;
 import com.itinerary.itinerary.management.repository.IItineraryEntryRepository;
-import com.itinerary.itinerary.management.service.IItineraryEntryService;
+import com.itinerary.itinerary.management.service.IItineraryExampleService;
+import com.itinerary.itinerary.management.service.IitineraryExistById;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,56 +15,75 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
-public class ItineraryEntryServiceImpl implements IItineraryEntryService {
+@Service("itinerary-entry-service")
+public class ItineraryEntryServiceImpl implements IItineraryExampleService<ItineraryEntryEntity> {
 
     @Autowired
     public IItineraryEntryRepository iItineraryEntryRepository;
 
-    public ServiceResponseBean findAll(){
+    @Autowired
+    public IitineraryExistById itineraryService;
+
+    @Autowired
+    public IExperienceListingService experienceListingService;
+
+    public ServiceResponseBean findAll() {
         List<ItineraryEntryEntity> itineraryEntryEntityList = this.iItineraryEntryRepository.findAll();
-        if (itineraryEntryEntityList.isEmpty())
-            return ServiceResponseBean.builder().status(Boolean.FALSE).error("No data").build();
         return ServiceResponseBean.builder().status(Boolean.TRUE).data(itineraryEntryEntityList).build();
     }
 
-    public ServiceResponseBean findById(Long itineraryEntryId) {
-        if (itineraryEntryId == null)
-            return ServiceResponseBean.builder().status(Boolean.FALSE).error("ItineraryId Cannot be null").build();
-        Optional<ItineraryEntryEntity> itineraryEntryEntityOptional = this.iItineraryEntryRepository.findById(itineraryEntryId);
-        if (itineraryEntryEntityOptional.isEmpty())
-            return ServiceResponseBean.builder().status(Boolean.FALSE).error("No data").build();
+    public ServiceResponseBean findById(String itineraryEntryUniqueId) {
+        if (itineraryEntryUniqueId == null)
+            throw new CannotBeNullException("Itinerary Entry Unique Id");
+        Optional<ItineraryEntryEntity> itineraryEntryEntityOptional = this.iItineraryEntryRepository.findByItineraryEntryUniqueId(itineraryEntryUniqueId);
+        if(itineraryEntryEntityOptional.isEmpty())
+            throw new DoesNotExistException("Itinerary Entry Unique Id");
         ItineraryEntryEntity itineraryEntryEntity = itineraryEntryEntityOptional.get();
         return ServiceResponseBean.builder().status(Boolean.TRUE).data(itineraryEntryEntity).build();
     }
 
-    public ServiceResponseBean addItinerary(ItineraryEntryEntity itineraryEntryEntity) {
+    public ServiceResponseBean add(ItineraryEntryEntity itineraryEntryEntity) {
         if (itineraryEntryEntity == null)
-            return ServiceResponseBean.builder().status(Boolean.FALSE).data("No itineraryEntry is null").build();
-        itineraryEntryEntity.setItineraryUniqueId(UUID.randomUUID().toString());
+            throw new CannotBeNullException("Itinerary Entry");
+        if (itineraryEntryEntity.getItineraryUniqueId() == null || itineraryEntryEntity.getItineraryEntryUniqueId().isBlank())
+            throw new CannotBeNullException("Itinerary ID");
+        if (!(this.itineraryService.existById(itineraryEntryEntity.getItineraryUniqueId())))
+            throw new DoesNotExistException("Itinerary ID");
+        if (itineraryEntryEntity.getExperienceUniqueId() == null || itineraryEntryEntity.getExperienceUniqueId().isBlank())
+            throw new CannotBeNullException("Experience ID");
+        if (!(this.experienceListingService.existByExperienceListingUniqueId(itineraryEntryEntity.getExperienceUniqueId())))
+            throw new DoesNotExistException("Experience ID");
+        itineraryEntryEntity.setItineraryEntryUniqueId(UUID.randomUUID().toString());
         ItineraryEntryEntity savedItinerary = this.iItineraryEntryRepository.save(itineraryEntryEntity);
         return ServiceResponseBean.builder().status(Boolean.TRUE).data(savedItinerary).build();
     }
 
-    public ServiceResponseBean updateItinerary(ItineraryEntryEntity itineraryEntryEntity) {
+    public ServiceResponseBean update(ItineraryEntryEntity itineraryEntryEntity) {
         if (itineraryEntryEntity == null)
-            return ServiceResponseBean.builder().status(Boolean.FALSE).data("itineraryEntry is null").build();
-        if (itineraryEntryEntity.getItineraryEntryId() == null)
-            return ServiceResponseBean.builder().status(Boolean.FALSE).data("itineraryEntry Id is null").build();
-        Optional<ItineraryEntryEntity> itineraryEntryEntityOptional = this.iItineraryEntryRepository.findById(itineraryEntryEntity.getItineraryEntryId());
+            throw new CannotBeNullException("Itinerary Entry");
+        if (itineraryEntryEntity.getItineraryUniqueId() != null) {
+            if (!(this.itineraryService.existById(itineraryEntryEntity.getItineraryUniqueId()))) {
+                throw new DoesNotExistException("Itinerary ID");
+            }
+        }
+        if (itineraryEntryEntity.getExperienceUniqueId() != null)
+            if (!(this.experienceListingService.existByExperienceListingUniqueId(itineraryEntryEntity.getExperienceUniqueId())))
+                throw new DoesNotExistException("Experience ID");
+        if (itineraryEntryEntity.getItineraryEntryUniqueId() == null)
+            throw new CannotBeNullException("Itinerary Entry Id");
+        Optional<ItineraryEntryEntity> itineraryEntryEntityOptional = this.iItineraryEntryRepository.findByItineraryEntryUniqueId(itineraryEntryEntity.getItineraryEntryUniqueId());
         if (itineraryEntryEntityOptional.isEmpty())
-            return ServiceResponseBean.builder().status(Boolean.FALSE).data("No Data to update").build();
-        itineraryEntryEntity = updateItineraryDatabaseToNew(itineraryEntryEntity, itineraryEntryEntityOptional.get());
+            throw new DoesNotExistException("Itinerary Entry Id");
+        itineraryEntryEntity = updateItineraryEntryDatabaseToNew(itineraryEntryEntity, itineraryEntryEntityOptional.get());
         ItineraryEntryEntity savedItinerary = this.iItineraryEntryRepository.save(itineraryEntryEntity);
         return ServiceResponseBean.builder().status(Boolean.TRUE).data(savedItinerary).build();
     }
 
-    private ItineraryEntryEntity updateItineraryDatabaseToNew(ItineraryEntryEntity itineraryEntryEntity, ItineraryEntryEntity databaseItineraryEntryEntity) {
+    private ItineraryEntryEntity updateItineraryEntryDatabaseToNew(ItineraryEntryEntity itineraryEntryEntity, ItineraryEntryEntity databaseItineraryEntryEntity) {
         return databaseItineraryEntryEntity.builder()
-                .itineraryEntryId(itineraryEntryEntity.getItineraryEntryId())
-                .itineraryEntryUniqueId(itineraryEntryEntity.getItineraryEntryUniqueId() != null ? itineraryEntryEntity.getItineraryEntryUniqueId() : databaseItineraryEntryEntity.getItineraryEntryUniqueId())
+                .itineraryEntryUniqueId(itineraryEntryEntity.getItineraryEntryUniqueId())
                 .itineraryUniqueId(itineraryEntryEntity.getItineraryUniqueId() != null ? itineraryEntryEntity.getItineraryUniqueId() : databaseItineraryEntryEntity.getItineraryUniqueId())
-                .experienceId(itineraryEntryEntity.getExperienceId() != null ? itineraryEntryEntity.getExperienceId() : databaseItineraryEntryEntity.getExperienceId())
+                .experienceUniqueId(itineraryEntryEntity.getExperienceUniqueId() != null ? itineraryEntryEntity.getExperienceUniqueId() : databaseItineraryEntryEntity.getExperienceUniqueId())
                 .notes(itineraryEntryEntity.getNotes() != null ? itineraryEntryEntity.getNotes() : databaseItineraryEntryEntity.getNotes())
                 .time(itineraryEntryEntity.getTime() != null ? itineraryEntryEntity.getTime() : databaseItineraryEntryEntity.getTime())
                 .date(itineraryEntryEntity.getDate() != null ? itineraryEntryEntity.getDate() : databaseItineraryEntryEntity.getDate())
@@ -68,12 +91,12 @@ public class ItineraryEntryServiceImpl implements IItineraryEntryService {
                 .build();
     }
 
-    public ServiceResponseBean deleteItinerary(Long itineraryId) {
-        if (itineraryId == null)
-            return ServiceResponseBean.builder().status(Boolean.FALSE).data("Itinerary Id is null").build();
-        Optional<ItineraryEntryEntity> itineraryEntryEntityOptional = this.iItineraryEntryRepository.findById(itineraryId);
-        if(itineraryEntryEntityOptional.isEmpty())
-            return ServiceResponseBean.builder().status(Boolean.TRUE).error("No Data").build();
+    public ServiceResponseBean delete(String itineraryUniqueId) {
+        if (itineraryUniqueId == null)
+            throw new CannotBeNullException("Itinerary Id");
+        Optional<ItineraryEntryEntity> itineraryEntryEntityOptional = this.iItineraryEntryRepository.findByItineraryEntryUniqueId(itineraryUniqueId);
+        if (itineraryEntryEntityOptional.isEmpty())
+            throw new DoesNotExistException("Itinerary Id");
         ItineraryEntryEntity itineraryEntryEntity = itineraryEntryEntityOptional.get();
         itineraryEntryEntity.setStatus(Boolean.FALSE);
         ItineraryEntryEntity savedItinerary = this.iItineraryEntryRepository.save(itineraryEntryEntity);

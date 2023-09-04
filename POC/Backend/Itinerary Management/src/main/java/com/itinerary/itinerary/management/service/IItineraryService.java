@@ -14,12 +14,13 @@ public interface IItineraryService {
 
     public ServiceResponseBean findAll();
 
-    public ServiceResponseBean findById(Long itineraryId);
+    public ServiceResponseBean findById(String itineraryUniqueId);
 
     public ServiceResponseBean addItinerary(ItineraryEntity itineraryEntity);
 
     public ServiceResponseBean updateItinerary(ItineraryEntity itineraryEntity);
 
-    public ServiceResponseBean deleteItinerary(Long itineraryId);
+    public ServiceResponseBean deleteItinerary(String itineraryUniqueId);
 
+    public Boolean existByItineraryUniqueId(String itineraryUniqueId);
 }

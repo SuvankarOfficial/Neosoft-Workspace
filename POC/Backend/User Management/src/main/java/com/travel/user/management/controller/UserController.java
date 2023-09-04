@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user-management")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private IUserService userService;
 
-    @GetMapping("/find-by-id/{userId}")
-    public ServiceResponseBean findById(@PathVariable("userId") Long userId) {
-        return this.userService.findById(userId);
+    @GetMapping("/find-by-id/{userUniqueId}")
+    public ServiceResponseBean findById(@PathVariable("userUniqueId") String userUniqueId) {
+        return this.userService.findById(userUniqueId);
     }
 
     @GetMapping("/find-all")
@@ -33,9 +33,9 @@ public class UserController {
         return this.userService.updateUser(userEntity);
     }
 
-    @DeleteMapping("/delete/{userId}")
-    public ServiceResponseBean deleteUser(@PathVariable("userId") Long userId) {
-        return this.userService.deleteUser(userId);
+    @DeleteMapping("/delete/{userUniqueId}")
+    public ServiceResponseBean deleteUser(@PathVariable("userUniqueId") String userUniqueId) {
+        return this.userService.deleteUser(userUniqueId);
     }
 
     @GetMapping("/check-if-exist/{userUniqueId}")

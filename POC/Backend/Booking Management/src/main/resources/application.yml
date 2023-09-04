@@ -2,6 +2,9 @@ server:
     port: 9003
 
 spring:
+    application:
+      name: BOOKING-MANAGEMENT
+
     datasource:
         driver-class-name: org.postgresql.Driver
         url: jdbc:postgresql://rain.db.elephantsql.com:5432/thkzbvcg
@@ -11,6 +14,11 @@ spring:
       show-sql: true
       hibernate:
         ddl-auto: create
+
+    cloud:
+      consul:
+        discovery:
+          prefer-ip-address: true
 
 management:
   health:
