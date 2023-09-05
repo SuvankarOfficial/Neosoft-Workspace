@@ -1,13 +1,14 @@
 package com.itinerary.itinerary.management.service;
 
 import com.itinerary.itinerary.management.bean.response.ServiceResponseBean;
-import com.itinerary.itinerary.management.entity.ItineraryEntryEntity;
+
+import java.util.List;
 
 public interface IItineraryExampleService<T> {
 
     public ServiceResponseBean findAll();
 
-    public ServiceResponseBean findById(String uniqueId);
+    public T findById(String uniqueId);
 
     public ServiceResponseBean add(T itinerary);
 

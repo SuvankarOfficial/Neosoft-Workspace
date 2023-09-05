@@ -17,7 +17,7 @@ public class ItineraryEntryController {
 
     @GetMapping("/find-by-id/{ItineraryEntryUniqueId}")
     public ServiceResponseBean findById(@PathVariable("ItineraryEntryUniqueId") String ItineraryEntryUniqueId) {
-        return this.itineraryEntryService.findById(ItineraryEntryUniqueId);
+        return ServiceResponseBean.builder().status(Boolean.TRUE).data(this.itineraryEntryService.findById(ItineraryEntryUniqueId)).build();
     }
 
     @GetMapping("/find-all")

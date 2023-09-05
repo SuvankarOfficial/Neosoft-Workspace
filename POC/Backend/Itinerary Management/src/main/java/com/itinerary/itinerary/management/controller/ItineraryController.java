@@ -3,9 +3,7 @@ package com.itinerary.itinerary.management.controller;
 import com.itinerary.itinerary.management.bean.response.ServiceResponseBean;
 import com.itinerary.itinerary.management.entity.ItineraryEntity;
 import com.itinerary.itinerary.management.service.IItineraryExampleService;
-import com.itinerary.itinerary.management.service.IItineraryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +15,7 @@ public class ItineraryController{
 
     @GetMapping("/find-by-id/{itineraryUniqueId}")
     public ServiceResponseBean findById(@PathVariable("itineraryUniqueId") String itineraryUniqueId) {
-        return this.itineraryService.findById(itineraryUniqueId);
+        return ServiceResponseBean.builder().status(Boolean.TRUE).data(this.itineraryService.findById(itineraryUniqueId)).build();
     }
 
     @GetMapping("/find-all")

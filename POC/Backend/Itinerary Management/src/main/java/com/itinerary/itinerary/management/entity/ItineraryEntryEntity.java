@@ -28,8 +28,6 @@ public class ItineraryEntryEntity {
 
     private String itineraryUniqueId;
 
-    private String experienceUniqueId;
-
     private String notes;
 
     @JsonDeserialize(using = LocalTimeDeserializer.class)

@@ -20,6 +20,8 @@ public class ItineraryEntity {
 
     private String userUniqueId;
 
+    private String experienceUniqueId;
+
     private String name;
 
     private String description;
