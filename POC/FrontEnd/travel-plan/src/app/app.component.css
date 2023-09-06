@@ -1,0 +1,15 @@
+outer-box{
+    border-style: solid ;
+    border : 13px;
+    border-color: pink;
+    height: 700px;
+    width: 300px;
+    padding-left: 200px;
+}
+
+inner-box{
+    height: 100px;
+    width: 100px;
+    background-color: red;
+    border: solid 1px blue;
+}

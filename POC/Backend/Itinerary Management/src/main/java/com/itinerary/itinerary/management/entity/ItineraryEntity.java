@@ -18,9 +18,9 @@ public class ItineraryEntity {
     @Id
     private String itineraryUniqueId;
 
-    private String userUniqueId;
+    private String createdByUserUniqueId;
 
-    private String experienceUniqueId;
+    private String createdForExperienceUniqueId;
 
     private String name;
 

@@ -47,13 +47,13 @@ public class ItineraryServiceImpl implements IitineraryExistById<ItineraryEntity
     public ServiceResponseBean add(ItineraryEntity itineraryEntity) {
         if (itineraryEntity == null)
             throw new CannotBeNullException("Itinerary Entity");
-        if(itineraryEntity.getUserUniqueId() == null || itineraryEntity.getUserUniqueId().isBlank())
+        if(itineraryEntity.getCreatedByUserUniqueId() == null || itineraryEntity.getCreatedByUserUniqueId().isBlank())
             throw new CannotBeNullException("User ID");
-        if (!(this.userManagementService.existByUserManagementUniqueId(itineraryEntity.getUserUniqueId())))
+        if (!(this.userManagementService.existByUserManagementUniqueId(itineraryEntity.getCreatedByUserUniqueId())))
             throw new DoesNotExistException("User ID");
-        if (itineraryEntity.getExperienceUniqueId() == null || itineraryEntity.getExperienceUniqueId().isBlank())
+        if (itineraryEntity.getCreatedForExperienceUniqueId() == null || itineraryEntity.getCreatedForExperienceUniqueId().isBlank())
             throw new CannotBeNullException("Experience ID");
-        if (!(this.experienceListingService.existByExperienceListingUniqueId(itineraryEntity.getExperienceUniqueId())))
+        if (!(this.experienceListingService.existByExperienceListingUniqueId(itineraryEntity.getCreatedForExperienceUniqueId())))
             throw new DoesNotExistException("Experience ID");
         itineraryEntity.setItineraryUniqueId(UUID.randomUUID().toString());
         ItineraryEntity savedItinerary = this.itineraryRepository.save(itineraryEntity);
@@ -63,11 +63,11 @@ public class ItineraryServiceImpl implements IitineraryExistById<ItineraryEntity
     public ServiceResponseBean update(ItineraryEntity itineraryEntity) {
         if (itineraryEntity == null)
             throw new CannotBeNullException("Itinerary");
-        if(itineraryEntity.getUserUniqueId() != null)
-            if(!(this.userManagementService.existByUserManagementUniqueId(itineraryEntity.getUserUniqueId())))
+        if(itineraryEntity.getCreatedByUserUniqueId() != null)
+            if(!(this.userManagementService.existByUserManagementUniqueId(itineraryEntity.getCreatedByUserUniqueId())))
                 throw new DoesNotExistException("User Id");
-        if (itineraryEntity.getExperienceUniqueId() != null)
-            if (!(this.experienceListingService.existByExperienceListingUniqueId(itineraryEntity.getExperienceUniqueId())))
+        if (itineraryEntity.getCreatedForExperienceUniqueId() != null)
+            if (!(this.experienceListingService.existByExperienceListingUniqueId(itineraryEntity.getCreatedForExperienceUniqueId())))
                 throw new DoesNotExistException("Experience ID");
         ItineraryEntity databaseItineraryId = this.findById(itineraryEntity.getItineraryUniqueId());
         itineraryEntity = updateItineraryDatabaseToNew(itineraryEntity,databaseItineraryId);
@@ -78,8 +78,8 @@ public class ItineraryServiceImpl implements IitineraryExistById<ItineraryEntity
     private ItineraryEntity updateItineraryDatabaseToNew(ItineraryEntity itineraryEntity, ItineraryEntity databaseItineraryEntity) {
         return databaseItineraryEntity.builder()
                 .itineraryUniqueId(itineraryEntity.getItineraryUniqueId())
-                .userUniqueId(itineraryEntity.getUserUniqueId() != null ? itineraryEntity.getUserUniqueId() : databaseItineraryEntity.getUserUniqueId())
-                .experienceUniqueId(itineraryEntity.getExperienceUniqueId() != null ? itineraryEntity.getExperienceUniqueId() : databaseItineraryEntity.getExperienceUniqueId())
+                .createdByUserUniqueId(itineraryEntity.getCreatedByUserUniqueId() != null ? itineraryEntity.getCreatedByUserUniqueId() : databaseItineraryEntity.getCreatedByUserUniqueId())
+                .createdForExperienceUniqueId(itineraryEntity.getCreatedForExperienceUniqueId() != null ? itineraryEntity.getCreatedForExperienceUniqueId() : databaseItineraryEntity.getCreatedForExperienceUniqueId())
                 .name(itineraryEntity.getName() != null ? itineraryEntity.getName() : databaseItineraryEntity.getName())
                 .description(itineraryEntity.getDescription() != null ? itineraryEntity.getDescription() : databaseItineraryEntity.getDescription())
                 .status(itineraryEntity.getStatus() != null ? itineraryEntity.getStatus() : databaseItineraryEntity.getStatus())
