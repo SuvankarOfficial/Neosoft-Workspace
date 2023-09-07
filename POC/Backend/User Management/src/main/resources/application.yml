@@ -6,10 +6,10 @@ spring:
     name: USER-SERVICE
 
   datasource:
-    url: jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12643291
-    username: sql12643291
-    password: 8xaMFiffRX
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://rain.db.elephantsql.com:5432/thkzbvcg
+    username: thkzbvcg
+    password: Aq7_NIE9k4KlkQnn3ieddgdt38iyhvyo
   jpa:
     show-sql: true
     hibernate:

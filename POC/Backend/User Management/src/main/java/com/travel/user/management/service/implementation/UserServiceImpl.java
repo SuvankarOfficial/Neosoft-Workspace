@@ -85,4 +85,9 @@ public class UserServiceImpl implements IUserService {
     public Boolean existByUserUniqueId(String userUniqueId) {
         return this.userRepository.existsByUserUniqueId(userUniqueId);
     }
+
+    @Override
+    public ServiceResponseBean checkCredential(String username, String password) {
+        return ServiceResponseBean.builder().status(Boolean.TRUE).data(this.userRepository.existsByUsernameAndPassword(username,password)).build();
+    }
 }

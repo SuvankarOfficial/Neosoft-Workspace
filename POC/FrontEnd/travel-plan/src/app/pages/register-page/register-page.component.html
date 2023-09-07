@@ -1,0 +1,25 @@
+<div class="inner-box">
+  <h1>Travel Karo</h1>
+  <h3>Bag Lo Aur Chal Pado</h3>
+  <img
+    class="inner-box-image"
+    src="../../../assets/image/527eb4642bea4b7fa287e9bd427ca7b2 (5)-PhotoRoom.png-PhotoRoom.png"
+    alt="logo"
+  />
+  <div class="mt-4 inner-box-form">
+    <div>First Name:</div>
+    <input type="text" [(ngModel)]="firstName"/>
+    <div>Last Name:</div>
+    <input type="text" [(ngModel)]="lastName"/>
+    <div>Email:</div>
+    <input type="email" [(ngModel)]="email"/>
+    <div class="mt-3">
+      <button type="button" class="btn btn-primary inner-box-register" (click)="printData()">
+        Register
+      </button>
+    </div>
+  </div>
+  <a style="color: blue; cursor: pointer;" (click)="onFlip()"
+    >Already User</a
+  >
+</div>

@@ -18,6 +18,11 @@ public class UserController {
         return this.userService.findById(userUniqueId);
     }
 
+    @PostMapping("/check-credential")
+    public ServiceResponseBean checkCredential(@RequestParam("username") String username, @RequestParam("password") String password){
+        return this.userService.checkCredential(username,password);
+    }
+
     @GetMapping("/find-all")
     public ServiceResponseBean findAll() {
         return this.userService.findAll();

@@ -1,0 +1,34 @@
+  .outer-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.flip-box{
+  perspective: 1000%;
+}
+
+#flip-box-inner {
+  position: relative;
+  height: 600px;
+  width: 375px;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* .flip-box:hover .flip-box-inner {
+  transform: rotateY(180deg);
+} */
+
+.do-flip {
+  transform: rotateY(180deg);
+} 
+
+.flip-box-register{
+  transform: rotateY(180deg);
+}
+
+.flip-box-login, .flip-box-register {
+  position: absolute;
+  backface-visibility: hidden;
+}

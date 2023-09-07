@@ -16,4 +16,6 @@ public interface IUserService {
     public ServiceResponseBean deleteUser(String userUniqueId);
 
     public Boolean existByUserUniqueId(String userUniqueId);
+
+    public ServiceResponseBean checkCredential(String username, String password);
 }
