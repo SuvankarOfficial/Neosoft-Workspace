@@ -1,0 +1,28 @@
+server:
+  port: 9007
+
+spring:
+  application:
+    name: OTP-SERVICE
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: shivatneosoft@gmail.com
+    password: xmqehklbxtetlxly
+    protocol: smtp
+    properties:
+      starttls.enable: true
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+      ssl:
+        trust: smtp.gmail.com
+    test-connection: true;
+
+  cloud:
+    consul:
+      discovery:
+        prefer-ip-address: true

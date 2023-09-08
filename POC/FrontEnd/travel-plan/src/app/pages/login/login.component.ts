@@ -27,8 +27,9 @@ export class LoginComponent {
 
   getCheckUserValidation(){
     this.userService.checkUserValidation(this.username,this.password).subscribe((result)=>{
+      console.log(result);
       if (result.status == true) {
-        this.error = result.data;
+        this.error = !result.data;
       }
     });
   }

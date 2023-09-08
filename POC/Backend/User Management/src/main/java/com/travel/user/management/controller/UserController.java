@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("http://localhost:4200")
 public class UserController {
 
     @Autowired
@@ -28,9 +29,14 @@ public class UserController {
         return this.userService.findAll();
     }
 
-    @PostMapping(value="/add")
+    @PostMapping("/add")
     public ServiceResponseBean addUser(@RequestBody UserEntity userEntity) {
         return this.userService.addUser(userEntity);
+    }
+
+    @PostMapping("/complete-profile")
+    public ServiceResponseBean completeProfile(@RequestBody UserEntity userEntity,@RequestParam("otp") String otp) {
+        return this.userService.completeProfile(userEntity,otp);
     }
 
     @PutMapping("/update")
@@ -46,6 +52,11 @@ public class UserController {
     @GetMapping("/check-if-exist/{userUniqueId}")
     public Boolean existByUserUniqueId(@PathVariable("userUniqueId") String userUniqueId){
         return this.userService.existByUserUniqueId(userUniqueId);
+    }
+
+    @GetMapping("/check-username/{username}")
+    public ServiceResponseBean existUsername(@PathVariable("username") String username){
+        return this.userService.existUsername(username);
     }
 
 }

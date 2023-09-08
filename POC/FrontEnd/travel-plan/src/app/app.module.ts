@@ -8,12 +8,14 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterLoginPageComponent } from './pages/register-login-page/register-login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { HttpClientModule, HttpParams } from '@angular/common/http';
+import { CompleteProfilePageComponent } from './pages/complete-profile-page/complete-profile-page.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterLoginPageComponent,
-    RegisterPageComponent
+    RegisterPageComponent,
+    CompleteProfilePageComponent
   ],
   imports: [
     BrowserModule,

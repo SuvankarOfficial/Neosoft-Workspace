@@ -1,0 +1,30 @@
+<div class="outer-box">
+  <div class="inner-box">
+    <h1>Travel Karo</h1>
+    <h3>Bag Lo Aur Chal Pado</h3>
+    <img
+      class="inner-box-image"
+      src="../../../assets/image/527eb4642bea4b7fa287e9bd427ca7b2 (5)-PhotoRoom.png-PhotoRoom.png"
+      alt="logo"
+    />
+    <div class="mt-4 inner-box-form">
+          <div>Username:</div>
+          <input type="text" [(ngModel)]="username" (keyup)="checkUsername()"/>
+          <div *ngIf="usernameError" style="color: red;">Username AlreadyExist</div>
+          <div>Password:</div>
+          <input type="password" [(ngModel)]="password" />
+          <div>Confirm Password:</div>
+          <input type="password" [(ngModel)]="confirmPassword">
+          <div *ngIf="passwordError" style="color: red;">Password Do Not Match</div>
+          <input
+            type="submit"
+            value="Log In"
+            class="btn btn-primary inner-box-login mt-3"
+            (click)="verifyOTP()"
+          >
+        <a href="http://" target="_blank" rel="noopener noreferrer"
+          >Forgot Password?</a
+        >
+      </div>
+  </div>
+</div>

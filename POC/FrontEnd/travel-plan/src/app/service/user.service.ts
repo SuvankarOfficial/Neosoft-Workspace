@@ -1,3 +1,4 @@
+import { User } from './../entity/User';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { userBaseUrl } from './constant';
@@ -8,12 +9,21 @@ import { ServiceResponseBean } from '../entity/ServiceResponseBean';
 })
 export class UserService {
 
-  constructor(private http:HttpClient, private param:HttpParams) { }
+  checkUsername(username: string) {
+    return this.http.get<ServiceResponseBean>(`${userBaseUrl}/check-username/${username}`);
+  }
+
+  constructor(private http:HttpClient) { }
 
   checkUserValidation(username:string, password:string){
-    let param = new HttpParams();
-    this.param.set("username",username);
-    this.param.set("password",password);
-    return this.http.post<ServiceResponseBean>(userBaseUrl+"/check-credential",this.param);
+    return this.http.post<ServiceResponseBean>(`${userBaseUrl}/check-credential?username=${username}&password=${password}`,null);
+  }
+
+  getOtp(firstName:string, lastName:string, email:string){
+    const user ={} as User;
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.email = email;
+    return this.http.post<ServiceResponseBean>(`${userBaseUrl}/add`,user);
   }
 }

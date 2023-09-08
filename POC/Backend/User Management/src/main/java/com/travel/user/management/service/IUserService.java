@@ -18,4 +18,8 @@ public interface IUserService {
     public Boolean existByUserUniqueId(String userUniqueId);
 
     public ServiceResponseBean checkCredential(String username, String password);
+
+    public ServiceResponseBean completeProfile(UserEntity userEntity, String otp);
+
+    ServiceResponseBean existUsername(String username);
 }

@@ -1,3 +1,5 @@
+import { Router, Routes } from '@angular/router';
+import { UserService } from './../../service/user.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,6 +8,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./register-page.component.css']
 })
 export class RegisterPageComponent {
+
+  constructor(private userService:UserService, private route:Router){}
 
   onFlip(){
     document.getElementById("flip-box-inner")
@@ -18,6 +22,16 @@ export class RegisterPageComponent {
 
   printData(){
     alert(this.email + " " + this.firstName + " " + this.lastName);
+  }
+
+  getOTP(){
+    this.userService.getOtp(this.firstName,this.lastName,this.email).subscribe((result)=>{
+      console.log(result);
+      if (result.status == true) {
+        this.route.navigate(["/complete-profile"])
+        console.log(result.data);
+      }
+    });
   }
 
 }

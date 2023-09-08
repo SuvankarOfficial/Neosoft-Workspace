@@ -16,10 +16,6 @@
   transform-style: preserve-3d;
 }
 
-/* .flip-box:hover .flip-box-inner {
-  transform: rotateY(180deg);
-} */
-
 .do-flip {
   transform: rotateY(180deg);
 } 
